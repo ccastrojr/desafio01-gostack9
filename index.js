@@ -16,7 +16,7 @@ app.use((req, res, next) => {
 function checkIfIdAlreadyRegistred(req, res, next) {
    const { id } = req.body;
    if(projects.find(p => p.id == id)) {
-      return res.json({ message: "This id is already registred. Please, insert other." })
+      return res.status(400).json({ message: "This id is already registred. Please, insert other." });
    }
 
    return next();
@@ -25,7 +25,7 @@ function checkIfIdAlreadyRegistred(req, res, next) {
 function checkIfIdExists(req, res, next) {
    const { id } = req.params;
    if(!projects.find(p => p.id == id)) {
-      return res.json({ message: "Id does not exists" });
+      return res.status(404).json({ message: "Id does not exists" });
    }
 
    next();
@@ -33,7 +33,7 @@ function checkIfIdExists(req, res, next) {
 
 app.get('/projects', (req, res) => {
    if(projects.length == 0) {
-      return res.json({ message: "No projects registered" });
+      return res.status(404).json({ message: "No projects registered" });
    }
 
    return res.json({ projects })
